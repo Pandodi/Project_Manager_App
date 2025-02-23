@@ -81,9 +81,6 @@ public partial class AddProjectViewModel
         Services = new ObservableCollection<Service>(await _serviceService.GetAllServicesAsync());
         StatusTypes = new ObservableCollection<StatusType>(await _statusTypeService.GetAllStatusTypesAsync());
     }
-
-
-
 }
 
 

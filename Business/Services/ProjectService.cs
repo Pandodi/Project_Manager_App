@@ -55,7 +55,26 @@ public class ProjectService(IProjectRepository projectRepository)
 
     public async Task<bool> UpdateProjectAsync(ProjectUpdateForm form)
     {
-        return await UpdateAsync(ProjectFactory.Create(form));
+        var existingEntity = await _repository.GetAsync(x => x.Id == form.Id);
+
+        if (existingEntity == null)
+        {
+            return false;
+        }
+
+        existingEntity.Title = form.Title;
+        existingEntity.Description = form.Description;
+        existingEntity.StartDate = form.StartDate;
+        existingEntity.EndDate = form.EndDate;
+        existingEntity.HoursWorked = form.HoursWorked;
+        existingEntity.ProjectLeaderId = form.ProjectLeaderId;
+        existingEntity.CustomerId = form.CustomerId;
+        existingEntity.ServiceId = form.ServiceId;
+        existingEntity.StatusTypeId = form.StatusTypeId;
+
+        return await UpdateAsync(existingEntity);
+
+        //return await UpdateAsync(ProjectFactory.Create(form));
     }
 
     public async Task<bool> DeleteProjectAsync(int id)

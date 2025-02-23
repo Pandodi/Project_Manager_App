@@ -4,9 +4,41 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Project_Manager_WPF.Views"
+             
+             d:DataContext="{d:DesignInstance Type=viewmodels:ProjectDetailViewModel}"
+             xmlns:viewmodels="clr-namespace:Project_Manager_WPF.ViewModels"
+             xmlns:models="clr-namespace:Business.Models;assembly=Business"
+             
+             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <StackPanel>
+            <TextBlock Text="Project Title:" FontSize="16" FontWeight="Bold" />
+            <TextBlock Text="{Binding SelectedProject.Title}" FontSize="14" Margin="0,5"/>
+
+            <TextBlock Text="Description:" FontSize="16" FontWeight="Bold" />
+            <TextBlock Text="{Binding SelectedProject.Description}" FontSize="14" Margin="0,5"/>
+
+            <TextBlock Text="Start Date:" FontSize="16" FontWeight="Bold" />
+            <TextBlock Text="{Binding SelectedProject.StartDate}" FontSize="14" Margin="0,5"/>
+
+            <TextBlock Text="End Date:" FontSize="16" FontWeight="Bold" />
+            <TextBlock Text="{Binding SelectedProject.EndDate}" FontSize="14" Margin="0,5"/>
+
+            <TextBlock Text="Customer:" FontSize="16" FontWeight="Bold" />
+            <TextBlock Text="{Binding SelectedProject.CustomerName}" FontSize="14" Margin="0,5"/>
+
+            <TextBlock Text="Serivce:" FontSize="16" FontWeight="Bold" />
+            <TextBlock Text="{Binding SelectedProject.ServiceName}" FontSize="14" Margin="0,5"/>
+
+            <TextBlock Text="Project Leader:" FontSize="16" FontWeight="Bold" />
+            <TextBlock Text="{Binding SelectedProject.ProjectLeaderName}" FontSize="14" Margin="0,5"/>
+
+            <TextBlock Text="Status:" FontSize="16" FontWeight="Bold" />
+            <TextBlock Text="{Binding SelectedProject.Status}" FontSize="14" Margin="0,5"/>
+        </StackPanel>
+
+
     </Grid>
 </UserControl>

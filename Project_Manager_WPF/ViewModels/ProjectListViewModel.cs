@@ -27,6 +27,9 @@ public partial class ProjectListViewModel
     [ObservableProperty]
     private Project _project = new();
 
+    [ObservableProperty]
+    private Project _selectedProject = new();
+
     public async Task GetProjectsAsync()
     {
         var projects = await _projectService.GetAllProjectsAsync();
@@ -45,6 +48,8 @@ public partial class ProjectListViewModel
         }
     }
 
+    /*
+
     [RelayCommand]
     public void GoToEditProject(Project project)
     {
@@ -55,6 +60,20 @@ public partial class ProjectListViewModel
         mainViewModel.CurrentViewModel = projectEditViewModel;
     }
 
+    */
+
+    [RelayCommand]
+    public async Task GoToEditProject(Project project)
+    {
+        var editProjectVM = _serviceProvider.GetRequiredService<EditProjectViewModel>();
+        editProjectVM.SetProject(project);
+
+        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+        mainViewModel.CurrentViewModel = editProjectVM;
+        
+        await editProjectVM.InitializeAsync();
+    }
+
     [RelayCommand]
     public async Task GoToAddProject()
     {
@@ -63,6 +82,18 @@ public partial class ProjectListViewModel
 
         await addProjectVM.InitializeAsync();
         mainViewModel.CurrentViewModel = addProjectVM;
+    }
+
+    [RelayCommand]
+    private async Task GoToProjectDetails(Project selectedProject)
+    {
+        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+        var viewProjectVM = _serviceProvider.GetRequiredService<ProjectDetailViewModel>();
+
+        var projectDTO = await _projectService.ViewProjectByIdAsync(selectedProject.Id);
+
+        await viewProjectVM.LoadProjectDetailsAsync(projectDTO!);
+        mainViewModel.CurrentViewModel = viewProjectVM;
     }
 
 }

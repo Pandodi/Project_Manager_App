@@ -8,6 +8,7 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:ProjectListViewModel}"
              xmlns:viewmodels="clr-namespace:Project_Manager_WPF.ViewModels"
              xmlns:models="clr-namespace:Business.Models;assembly=Business"
+             xmlns:dto="clr-namespace:Business.Dtos;assembly=Business"
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -29,7 +30,7 @@
         BorderBrush="DarkBlue"
         BorderThickness="2" />
         </StackPanel>
-        <ListView Grid.Row="1" ItemsSource="{Binding Projects}" HorizontalContentAlignment="Stretch" Margin="0 20 0 0">
+        <ListView Grid.Row="1" ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedProject}" HorizontalContentAlignment="Stretch" Margin="0 20 0 0">
             <ListView.ItemTemplate>
                 <DataTemplate DataType="models:Project">
                     <Grid>
@@ -44,6 +45,13 @@
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
+
+                            <Button Content="VIEW" Padding="5"
+                            Margin="0,0,10,0"
+                            CommandParameter="{Binding}" 
+                            Command="{Binding DataContext.GoToProjectDetailsCommand, 
+                            RelativeSource={RelativeSource AncestorType=ListView}}" />
+
                             <Button Content="❌" Padding="5"
                             Margin="0,0,10,0"
                         CommandParameter="{Binding}" 
