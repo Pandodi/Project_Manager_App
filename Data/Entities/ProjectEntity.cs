@@ -24,9 +24,11 @@ public class ProjectEntity
     [Required]
     [Column(TypeName = "date")]
     public DateTime EndDate { get; set; }
-    
-    [Column(TypeName = "Money")]
-    public decimal PricePerHour { get; set; }
+
+    [Required]
+    public int HoursWorked { get; set; }
+
+    public decimal TotalCost => HoursWorked * (Service?.PricePerHour ?? 0);
 
     public int ProjectLeaderId { get; set; }
     public ProjectLeaderEntity ProjectLeader { get; set; } = null!;

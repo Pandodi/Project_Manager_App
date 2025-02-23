@@ -61,8 +61,8 @@ namespace Data.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("date");
 
-                    b.Property<decimal>("PricePerHour")
-                        .HasColumnType("Money");
+                    b.Property<int>("HoursWorked")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProjectLeaderId")
                         .HasColumnType("int");
@@ -149,6 +149,23 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("StatusTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            StatusName = "Not Started"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            StatusName = "Ongoing"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            StatusName = "Completed"
+                        });
                 });
 
             modelBuilder.Entity("Data.Entities.ProjectEntity", b =>

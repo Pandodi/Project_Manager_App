@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class AddMigrationInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -76,7 +78,7 @@ namespace Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(500)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    PricePerHour = table.Column<decimal>(type: "Money", nullable: false),
+                    HoursWorked = table.Column<int>(type: "int", nullable: false),
                     ProjectLeaderId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     ServiceId = table.Column<int>(type: "int", nullable: false),
@@ -109,6 +111,16 @@ namespace Data.Migrations
                         principalTable: "StatusTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "StatusTypes",
+                columns: new[] { "Id", "StatusName" },
+                values: new object[,]
+                {
+                    { 1, "Not Started" },
+                    { 2, "Ongoing" },
+                    { 3, "Completed" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -7,10 +7,10 @@ using System.Linq.Expressions;
 
 namespace Data.Repositories;
 
-public abstract class BaseRepository<TEntity>(DataContext context) : IBaseRepository<TEntity>, IBaseRepository<TEntity> where TEntity : class
+public abstract class BaseRepository<TEntity>(DataContext context) : IBaseRepository<TEntity> where TEntity : class
 {
-    private readonly DataContext _context = context;
-    private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
+    protected readonly DataContext _context = context;
+    protected readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
     private IDbContextTransaction _transaction = null!;
 
     #region Transaction Management
@@ -79,7 +79,32 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
         return await _context.SaveChangesAsync();
     }
 
+    public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> expression)
+    {
+        return await _dbSet.AnyAsync(expression);
+    }
 
+    public async Task<TEntity?> GetDetailAsync(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includeExpression = null)
+    {
+        IQueryable<TEntity> query = _dbSet;
+        if (includeExpression != null)
+        {
+            query = includeExpression(query);
+        }
+
+        return await query.FirstOrDefaultAsync(predicate);
+    }
+
+    public async Task<IEnumerable<TEntity>> GetAllDetailedAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>>? includeExpression = null)
+    {
+        IQueryable<TEntity> query = _dbSet;
+        if (includeExpression != null)
+        {
+            query = includeExpression(query);
+        }
+
+        return await query.ToListAsync();
+    }
 
     #endregion
 
