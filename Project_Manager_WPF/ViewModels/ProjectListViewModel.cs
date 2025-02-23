@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Project_Manager_WPF.ViewModels;
 
@@ -41,26 +42,17 @@ public partial class ProjectListViewModel
     {
         if (project == null) return;
 
-        var result = await _projectService.DeleteProjectAsync(project.Id);
-        if (result)
+        var result = MessageBox.Show("Are you sure you want to delete this project?", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+        if (result == MessageBoxResult.Yes)
         {
-            Projects.Remove(project);
+            var success = await _projectService.DeleteProjectAsync(project.Id);
+            if (success)
+            {
+                Projects.Remove(project);
+            }
         }
     }
-
-    /*
-
-    [RelayCommand]
-    public void GoToEditProject(Project project)
-    {
-        var projectEditViewModel = _serviceProvider.GetRequiredService<EditProjectViewModel>();
-        projectEditViewModel.SetProject(project);
-
-        var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-        mainViewModel.CurrentViewModel = projectEditViewModel;
-    }
-
-    */
 
     [RelayCommand]
     public async Task GoToEditProject(Project project)

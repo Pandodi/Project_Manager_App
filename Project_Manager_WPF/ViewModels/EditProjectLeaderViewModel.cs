@@ -38,7 +38,10 @@ public partial class EditProjectLeaderViewModel(IProjectLeaderService projectLea
         if (success)
         {
             var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-            mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<ProjectLeaderListViewModel>();
+            var projectLeaderVM = _serviceProvider.GetRequiredService<ProjectLeaderListViewModel>();
+
+            await projectLeaderVM.GetProjectLeadersAsync();
+            mainViewModel.CurrentViewModel = projectLeaderVM;
         }
 
 

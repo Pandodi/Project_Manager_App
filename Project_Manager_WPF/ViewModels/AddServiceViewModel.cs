@@ -23,7 +23,10 @@ public partial class AddServiceViewModel(IServiceService serviceService, IServic
         if (success)
         {
             var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
-            mainViewModel.CurrentViewModel = _serviceProvider.GetRequiredService<ServiceListViewModel>();
+            var serviceViewModel = _serviceProvider.GetRequiredService<ServiceListViewModel>();
+
+            await serviceViewModel.GetServicesAsync();
+            mainViewModel.CurrentViewModel = serviceViewModel;
         }
     }
 

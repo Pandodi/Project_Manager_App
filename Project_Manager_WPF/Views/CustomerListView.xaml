@@ -40,8 +40,8 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="{Binding CustomerName}" FontSize="14" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding CustomerEmail}" FontSize="12"/>
+                            <TextBlock Text="{Binding Path=CustomerName, StringFormat='Name: {0}'}" FontSize="14" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Path=CustomerEmail, StringFormat='Email: {0}'}" FontSize="12"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">

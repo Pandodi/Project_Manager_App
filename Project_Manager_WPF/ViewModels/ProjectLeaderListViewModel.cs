@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Project_Manager_WPF.ViewModels;
 
@@ -31,10 +32,15 @@ public partial class ProjectLeaderListViewModel(IProjectLeaderService projectLea
     {
         if (projectLeader == null) return;
 
-        var result = await _projectLeaderService.DeleteProjectLeaderAsync(projectLeader.Id);
-        if (result)
+        var result = MessageBox.Show("Are you sure you want to delete the customer?", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+        if (result == MessageBoxResult.Yes)
         {
-            ProjectLeaders.Remove(projectLeader);
+            var success = await _projectLeaderService.DeleteProjectLeaderAsync(projectLeader.Id);
+            if (success)
+            {
+                ProjectLeaders.Remove(projectLeader);
+            }
         }
     }
 

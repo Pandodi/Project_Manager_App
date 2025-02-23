@@ -41,8 +41,8 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="{Binding ServiceName}" FontSize="14" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding PricePerHour}" FontSize="12"/>
+                            <TextBlock Text="{Binding Path=ServiceName, StringFormat='Service: {0}'}" FontSize="14" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Path=PricePerHour, StringFormat='Price: {0}'}" FontSize="12"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">

@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Project_Manager_WPF.ViewModels;
@@ -34,11 +35,19 @@ public partial class CustomerListViewModel(ICustomerService customerService, ISe
     {
         if (customer == null) return;
 
-        var result = await _customerService.DeleteCustomerAsync(customer.Id);
-        if (result)
+        var result = MessageBox.Show("Are you sure you want to delete the customer?","Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+        if (result == MessageBoxResult.Yes)
         {
-            Customers.Remove(customer);
+            
+            var success = await _customerService.DeleteCustomerAsync(customer.Id);
+            if (success)
+            {
+                Customers.Remove(customer);
+            }     
         }
+
+
     }
 
     [RelayCommand]

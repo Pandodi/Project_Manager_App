@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Project_Manager_WPF.ViewModels;
 
@@ -30,11 +31,17 @@ public partial class ServiceListViewModel(IServiceService serviceService, IServi
     {
         if (service == null) return;
 
-        var result = await _serviceService.DeleteServiceAsync(service.Id);
-        if (result)
+        var result = MessageBox.Show("Are you sure you want to delete this service?", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+        if (result == MessageBoxResult.Yes)
         {
-            Services.Remove(service);
+            var success = await _serviceService.DeleteServiceAsync(service.Id);
+            if (success)
+            {
+                Services.Remove(service);
+            }
         }
+
     }
 
     [RelayCommand]
